@@ -1,6 +1,8 @@
 FROM node:12.16.3
 
 # Create app directory
+RUN npm install nodemon -g
+
 WORKDIR /usr/src/api
 
 COPY package*.json ./
@@ -12,5 +14,5 @@ RUN npm install
 # Bundle app source
 COPY . .
 
-EXPOSE 8080
-CMD [ "node", "server.js" ]
+EXPOSE 3000
+CMD nodemon server.js

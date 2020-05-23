@@ -2,7 +2,7 @@ const express = require('express');
 const users = require('./controllers/users');
 const crypter = require('./utils/crypter')
 // Constants
-const PORT = 8080;
+const PORT = 3000;
 const HOST = '0.0.0.0';
 
 // App

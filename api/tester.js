@@ -1,14 +1,14 @@
 const axios = require('axios');
 let token;
-
-axios.post('http://localhost:8080/login', {
+const url = 'http://localhost:8080/';
+axios.post(url + 'login', {
     email: 'jlueiza@gmail.com',
     password: 'value2'
   })
   .then(function (response) {
     token = response.data.token;
     console.log("TOKEN", token)
-    return axios.post('http://localhost:8080/suma', {
+    return axios.post(url + 'suma', {
         n1: 1,
         n2: 2,
         token: token
@@ -17,7 +17,7 @@ axios.post('http://localhost:8080/login', {
   .then((response) => {
       const suma = response.data.suma;
       console.log("SUMA", suma);
-      return axios.post('http://localhost:8080/logout', {
+      return axios.post(url + 'logout', {
         token: token
       });
   })
