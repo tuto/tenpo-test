@@ -4,4 +4,4 @@ api:
          - "./:/usr/src/api"  
      ports:    
          - "8080:3000"
-         - "5431:5432"
+     net: "host"
