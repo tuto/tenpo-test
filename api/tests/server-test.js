@@ -4,7 +4,7 @@ const proxyquire = require('proxyquire');
 const { expect } = chai;
 
 describe('server', () => {
-  it('should run in port 8080', (done) => {
+  it('should run in port 3000', (done) => {
     const server = proxyquire('../server', {
         'express': () => {
             return {
@@ -21,7 +21,7 @@ describe('server', () => {
                     return;
                 },
                 listen: (port, host) => {
-                    expect(port).to.equal(8080)
+                    expect(port).to.equal(3000)
                     done();
                 }
             }
