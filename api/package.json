@@ -6,8 +6,9 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "mocha tests/ --recursive -w",
-    "test-push": "mocha tests/ --recursive"
+    "test": "nyc mocha tests/ --recursive -w",
+    "test-push": "nyc mocha tests/ --recursive",
+    "coverage-report": "npm run test-push; nyc report --reporter=html"
   },
   "dependencies": {
     "@hapi/joi": "^17.1.1",
@@ -20,6 +21,7 @@
     "chai": "^4.2.0",
     "husky": "^4.2.5",
     "mocha": "^7.1.2",
+    "nyc": "^15.0.1",
     "proxyquire": "^2.1.3",
     "sinon": "^9.0.2"
   },

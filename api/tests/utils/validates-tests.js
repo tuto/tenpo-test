@@ -73,4 +73,45 @@ describe('validates', () => {
             done();
         });
     });
+    describe('logoutData', (done) => {
+        let data = {}
+        beforeEach((done) => {
+            data = {
+                token: 'asdsadsadsad'
+            };
+            done();
+        });
+        it('should validate true if data is correct', (done) => {
+            const result = validates.logoutData(data);
+            expect(result).to.be.true;
+            done();
+        });
+        it('should validate false if token is wrong', (done) => {
+            data.token = undefined;
+            const result = validates.logoutData(data);
+            expect(result).to.be.false;
+            done();
+        })
+    });
+
+    describe('historyData', (done) => {
+        let data = {}
+        beforeEach((done) => {
+            data = {
+                email: 'mail@mail.com'
+            };
+            done();
+        });
+        it('should validate true if data is correct', (done) => {
+            const result = validates.historyData(data);
+            expect(result).to.be.true;
+            done();
+        });
+        it('should validate false if email is wrong', (done) => {
+            data.email = "cds@";
+            const result = validates.historyData(data);
+            expect(result).to.be.false;
+            done();
+        })
+    });
 });

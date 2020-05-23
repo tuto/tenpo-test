@@ -41,8 +41,14 @@ const isInWhitList = (token) => {
 }
 
 const getEmailFromToken = (token) => {
-    const decoded = jwt.decode(token);
-    return decoded.email;
+    
+    try {
+        const decoded = jwt.decode(token);
+        return decoded.email;
+    }
+    catch(e){
+        throw e;
+    }
 }
 
 module.exports = {crypt, createToken, validateToken, deleteToken: removeFromWhiteList, getEmailFromToken}

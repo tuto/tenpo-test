@@ -1,11 +1,12 @@
 const { Pool} = require('pg')
+const config = require('../utils/config')
 
 const pool = new Pool({
-  user: 'tenpo-api',
-  host: 'localhost',
-  database: 'tenpo-api',
-  password: 'tenpo-api-pass',
-  port: 5432,
+  user: config.DB_USER,
+  host: config.DB_HOST,
+  database: config.DB_DATABASE,
+  password: config.DB_PASSWORD,
+  port: config.DB_PORT,
 })
 let connection;
 

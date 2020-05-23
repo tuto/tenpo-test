@@ -4,6 +4,7 @@ const proxyquire = require('proxyquire');
 const { expect } = chai;
 
 describe('users', () => {
+    
     describe('register', (done) => {
         let req = {
             body: {
@@ -11,9 +12,6 @@ describe('users', () => {
                 password: 'XXXX',
                 name: 'NAME',
                 last_name:'LASTNAME'
-            },
-            session: {
-                user: ""
             }
         }
         it('should register a user', (done) => {            
@@ -34,6 +32,9 @@ describe('users', () => {
                        return Promise.resolve()
                     },
                     userNotExist: (data) => {
+                        return Promise.resolve();
+                    },
+                    insertAction: (data) => {
                         return Promise.resolve();
                     }
                 }
@@ -58,6 +59,9 @@ describe('users', () => {
                         done();
                     },
                     userNotExist: (data) => {
+                        return Promise.resolve();
+                    },
+                    insertAction: (data) => {
                         return Promise.resolve();
                     }
                 }
@@ -86,6 +90,9 @@ describe('users', () => {
                     },
                     registerUser: () => {
                         return Promise.resolve()
+                     },
+                     insertAction: (data) => {
+                         return Promise.resolve();
                      }
                 }
             })
@@ -113,11 +120,82 @@ describe('users', () => {
                     },
                     registerUser: () => {
                         return Promise.resolve()
+                     },
+                     insertAction: (data) => {
+                         return Promise.resolve();
                      }
                 },
                 '../utils/validates': {
                     registerData: (data) => {
                         return false;
+                    }
+                }
+            })
+
+            usersFake.register(req, res);
+        });
+        it('should return http code 500 if register fail', (done) => {
+
+            const res = {
+                status: (status) => {
+                    expect(status).to.equal(500);
+                    done();
+                    return {
+                        send:(message)=> {
+                        }
+                    }
+                }
+            }
+
+            const usersFake = proxyquire('../../controllers/users', {
+                '../clients/db': {
+                    userNotExist: (data) => {
+                        return Promise.resolve();
+                    },
+                    registerUser: () => {
+                        return Promise.reject()
+                     },
+                     insertAction: (data) => {
+                         return Promise.resolve();
+                     }
+                },
+                '../utils/validates': {
+                    registerData: (data) => {
+                        return true;
+                    }
+                }
+            })
+
+            usersFake.register(req, res);
+        });
+        it('should return http code 500 if register fail', (done) => {
+
+            const res = {
+                status: (status) => {
+                    expect(status).to.equal(500);
+                    done();
+                    return {
+                        send:(message)=> {
+                        }
+                    }
+                }
+            }
+
+            const usersFake = proxyquire('../../controllers/users', {
+                '../clients/db': {
+                    userNotExist: (data) => {
+                        return Promise.resolve();
+                    },
+                    registerUser: () => {
+                        return Promise.resolve()
+                     },
+                     insertAction: (data) => {
+                         return Promise.reject();
+                     }
+                },
+                '../utils/validates': {
+                    registerData: (data) => {
+                        return true;
                     }
                 }
             })
@@ -131,9 +209,6 @@ describe('users', () => {
             body: {
                 email: 'email@email.com',
                 password: 'XXXX'
-            },
-            session: {
-
             }
         }
         it('should login a user', (done) => {
@@ -151,6 +226,9 @@ describe('users', () => {
                 '../clients/db': {
                     login: (data) => {
                         return Promise.resolve({name:"fdsfsdf", last_name:"dsfdsf"})
+                    },
+                    insertAction: (data) => {
+                        return Promise.resolve();
                     }
                 },
                 '../utils/validates': {
@@ -177,6 +255,9 @@ describe('users', () => {
                 '../clients/db': {
                     login: (data) => {
                         return Promise.resolve()
+                    },
+                    insertAction: (data) => {
+                        return Promise.resolve();
                     }
                 },
                 '../utils/validates': {
@@ -203,6 +284,9 @@ describe('users', () => {
                 '../clients/db': {
                     login: (data) => {
                         return Promise.reject()
+                    },
+                    insertAction: (data) => {
+                        return Promise.resolve();
                     }
                 },
                 '../utils/validates': {
@@ -214,4 +298,412 @@ describe('users', () => {
             usersFake.login(req, res)
          });
     });
+
+    describe('sum', (done) => {
+        let req = {
+            body: {
+                n1: 1,
+                n2: 3,
+                token:"TOKEN"
+            }
+        }
+        it('should sum 2 numbers', (done) => {
+            const res = {
+                status: (status) => {
+                    expect(status).to.equal(200);
+                    return {
+                        send:(message)=> {
+                            expect(message).to.deep.equal({suma:4});
+                            done();
+                        }
+                    }
+                }
+            }
+            const usersFake = proxyquire('../../controllers/users', {
+                '../clients/db': {
+                    insertAction: (data) => {
+                        return Promise.resolve();
+                    }
+                },
+                '../utils/crypter': {
+                    getEmailFromToken: (token) => {
+                        return "mail@mail.com";
+                    }
+                }
+            });
+            usersFake.sum(req, res)
+         });
+
+         it('should return error if get email fail', (done) => {
+            const res = {
+                status: (status) => {
+                    expect(status).to.equal(500);
+                    done()
+                    return {
+                        send:(message)=> {
+                        }
+                    }
+                }
+            }
+            const usersFake = proxyquire('../../controllers/users', {
+                '../clients/db': {
+                    insertAction: (data) => {
+                        return Promise.resolve();
+                    }
+                },
+                '../utils/crypter': {
+                    getEmailFromToken: (token) => {
+                        throw "error obteniendo mail del token";
+                    }
+                }
+            });
+            usersFake.sum(req, res)
+         });
+
+         it('should return error if insert action fail', (done) => {
+            const res = {
+                status: (status) => {
+                    expect(status).to.equal(500);
+                    done()
+                    return {
+                        send:(message)=> {
+                        }
+                    }
+                }
+            }
+            const usersFake = proxyquire('../../controllers/users', {
+                '../clients/db': {
+                    insertAction: (data) => {
+                        return Promise.reject();
+                    }
+                },
+                '../utils/crypter': {
+                    getEmailFromToken: (token) => {
+                        return "mail@mail.com";
+                    }
+                }
+            });
+            usersFake.sum(req, res)
+         });
+    });
+
+    describe('logout', (done) => {
+        let req = {
+            body: {
+                token:"TOKEN"
+            }
+        }
+        it('should logout error if token isnt pass', (done) => {
+            const res = {
+                status: (status) => {
+                    expect(status).to.equal(400);
+                    done()
+                    return {
+                        send:(message)=> {
+                        }
+                    }
+                }
+            }
+            const usersFake = proxyquire('../../controllers/users', {
+                '../clients/db': {
+                    insertAction: (data) => {
+                        return Promise.resolve();
+                    }
+                },
+                '../utils/crypter': {
+                    getEmailFromToken: (token) => {
+                        throw "no se pudo obtener el email desde el token";
+                    }
+                },
+                '../utils/validates': {
+                    logoutData: (data) => {
+                        return false;
+                    }
+                }
+            });
+            usersFake.logout(req, res)
+         });
+
+         it('should logout error if is not posible obtain de email from token', (done) => {
+            const res = {
+                status: (status) => {
+                    expect(status).to.equal(403);
+                    done()
+                    return {
+                        send:(message)=> {
+                        }
+                    }
+                }
+            }
+            const usersFake = proxyquire('../../controllers/users', {
+                '../clients/db': {
+                    insertAction: (data) => {
+                        return Promise.resolve();
+                    }
+                },
+                '../utils/crypter': {
+                    getEmailFromToken: (token) => {
+                        throw "no se pudo obtener el email desde el token";
+                    }
+                },
+                '../utils/validates': {
+                    logoutData: (data) => {
+                        return true;
+                    }
+                }
+            });
+            usersFake.logout(req, res)
+         });
+
+         it('should logout error if is not posible delete token', (done) => {
+            const res = {
+                status: (status) => {
+                    expect(status).to.equal(403);
+                    done()
+                    return {
+                        send:(message)=> {
+                        }
+                    }
+                }
+            }
+            const usersFake = proxyquire('../../controllers/users', {
+                '../clients/db': {
+                    insertAction: (data) => {
+                        return Promise.resolve();
+                    }
+                },
+                '../utils/crypter': {
+                    getEmailFromToken: (token) => {
+                        return "mail@mail.com";
+                    },
+                    deleteToken: (token) => {
+                        throw "no es posible eliminar token";
+                    }
+                },
+                '../utils/validates': {
+                    logoutData: (data) => {
+                        return true;
+                    }
+                }
+            });
+            usersFake.logout(req, res)
+         });
+
+         it('should logout error if isnt possible insert action', (done) => {
+            const res = {
+                status: (status) => {
+                    expect(status).to.equal(403);
+                    done()
+                    return {
+                        send:(message)=> {
+                        }
+                    }
+                }
+            }
+            const usersFake = proxyquire('../../controllers/users', {
+                '../clients/db': {
+                    insertAction: (data) => {
+                        return Promise.reject();
+                    }
+                },
+                '../utils/crypter': {
+                    getEmailFromToken: (token) => {
+                        return "mail@mail.com";
+                    },
+                    deleteToken: (token) => {
+                        return;
+                    }
+                },
+                '../utils/validates': {
+                    logoutData: (data) => {
+                        return true;
+                    }
+                }
+            });
+            usersFake.logout(req, res)
+         });
+        
+         it('should logout', (done) => {
+            const res = {
+                status: (status) => {
+                    expect(status).to.equal(200);
+                    done()
+                    return {
+                        send:(message)=> {
+                        }
+                    }
+                }
+            }
+            const usersFake = proxyquire('../../controllers/users', {
+                '../clients/db': {
+                    insertAction: (data) => {
+                        return Promise.resolve();
+                    }
+                },
+                '../utils/crypter': {
+                    getEmailFromToken: (token) => {
+                        return "mail@mail.com";
+                    },
+                    deleteToken: (token) => {
+                        return;
+                    }
+                },
+                '../utils/validates': {
+                    logoutData: (data) => {
+                        return true;
+                    }
+                }
+            });
+            usersFake.logout(req, res)
+         });
+    });
+
+    describe('history', (done) => {
+        let req = {
+            query: {
+                email:"mail@mail.com"
+            }
+        }
+        it('should history error if email isnt valid', (done) => {
+            const res = {
+                status: (status) => {
+                    expect(status).to.equal(400);
+                    done()
+                    return {
+                        send:(message)=> {
+                        }
+                    }
+                }
+            }
+            const usersFake = proxyquire('../../controllers/users', {
+                '../clients/db': {
+                    insertAction: (data) => {
+                        return Promise.resolve();
+                    }
+                },
+                '../utils/crypter': {
+                    getEmailFromToken: (token) => {
+                        throw "no se pudo obtener el email desde el token";
+                    }
+                },
+                '../utils/validates': {
+                    historyData: (data) => {
+                        return false;
+                    }
+                }
+            });
+            usersFake.history(req, res)
+         });
+
+         it('should history error if is not posible obtain history', (done) => {
+            const res = {
+                status: (status) => {
+                    expect(status).to.equal(403);
+                    done()
+                    return {
+                        send:(message)=> {
+                        }
+                    }
+                }
+            }
+            const usersFake = proxyquire('../../controllers/users', {
+                '../clients/db': {
+                    getHistoryByEmail: (data) => {
+                        return Promise.reject();
+                    },
+                    insertAction: (data) => {
+                        return Promise.reject();
+                    }
+                },
+                '../utils/crypter': {
+                    getEmailFromToken: (token) => {
+                        throw "no se pudo obtener el email desde el token";
+                    }
+                },
+                '../utils/validates': {
+                    historyData: (data) => {
+                        return true;
+                    }
+                }
+            });
+            usersFake.history(req, res)
+         });
+
+        it('should logout error if isnt possible insert action', (done) => {
+            const res = {
+                status: (status) => {
+                    expect(status).to.equal(403);
+                    done()
+                    return {
+                        send:(message)=> {
+                        }
+                    }
+                }
+            }
+            const usersFake = proxyquire('../../controllers/users', {
+                '../clients/db': {
+                    getHistoryByEmail: (data) => {
+                        return Promise.resolve();
+                    },
+                    insertAction: (data) => {
+                        return Promise.reject();
+                    }
+                },
+                '../utils/crypter': {
+                    getEmailFromToken: (token) => {
+                        return "mail@mail.com";
+                    },
+                    deleteToken: (token) => {
+                        return;
+                    }
+                },
+                '../utils/validates': {
+                    historyData: (data) => {
+                        return true;
+                    }
+                }
+            });
+            usersFake.history(req, res)
+         });
+        
+         it('should obtain the user history', (done) => {
+            const res = {
+                status: (status) => {
+                    expect(status).to.equal(200);
+                    return {
+                        send:(message)=> {
+                            expect(message).to.deep.equal({ history: [ { description: 'REGISTER' } ] });
+                            done()
+                        }
+                    }
+                }
+            }
+            const usersFake = proxyquire('../../controllers/users', {
+                '../clients/db': {
+                    getHistoryByEmail: (data) => {
+                        return Promise.resolve([{description:"REGISTER"}]);
+                    },
+                    insertAction: (data) => {
+                        return Promise.resolve();
+                    }
+                },
+                '../utils/crypter': {
+                    getEmailFromToken: (token) => {
+                        return "mail@mail.com";
+                    },
+                    deleteToken: (token) => {
+                        return;
+                    }
+                },
+                '../utils/validates': {
+                    historyData: (data) => {
+                        return true;
+                    }
+                }
+            });
+            usersFake.history(req, res)
+         });
+    });
+    
+    
 });

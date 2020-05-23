@@ -55,8 +55,8 @@ const login = async(req, res) => {
 
 const sum = async(req, res) => {
     const data = req.body;
-    const email = crypter.getEmailFromToken(data.token);
     try {
+        const email = crypter.getEmailFromToken(data.token);
         await db.insertAction(email,3);
         res.status(200).send({suma: data.n1 + data.n2});
     }
@@ -68,13 +68,13 @@ const sum = async(req, res) => {
 
 const logout = async(req, res) => {
     const data = req.body;
-    const email = crypter.getEmailFromToken(data.token);
     //validate data
     if(!validates.logoutData(data)) {
         res.status(400).send();
         return;
     }
     try {
+        const email = crypter.getEmailFromToken(data.token);
         crypter.deleteToken(data.token)
         await db.insertAction(email,5);
         res.status(200).send();
@@ -99,11 +99,9 @@ const history = async(req, res) => {
         res.status(200).send({history});
     }
     catch(e) {
-        console.log("TUTO", e)
         res.status(403).send();
     }
     return;
 }
-
 
 module.exports = {register, login, sum, logout, history};

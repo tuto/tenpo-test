@@ -8,9 +8,6 @@ const HOST = '0.0.0.0';
 // App
 const app = express();
 app.use(express.json());
-app.get('/', (req, res) => {
-  res.send('Hello World');
-});
 
 app.post('/register', users.register);
 

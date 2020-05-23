@@ -56,12 +56,11 @@ const getHistoryByEmail = async(email) => {
         let res = await connection.query('SELECT id from users WHERE email = $1', [email])
         if(res.rows.length > 0) {
             res = await connection.query('SELECT a.description, uh.datetime from user_history as uh, actions as a WHERE uh.id_user = $1 AND uh.id_action = a.id ORDER BY uh.datetime DESC', [res.rows[0].id])
-            return res.rows;
-            
+            return res.rows;            
         }
+        return [];
     }
     catch(e) {
-        console.log("e",e)
         throw "Error insertanto al usuario";
     }
     finally {
