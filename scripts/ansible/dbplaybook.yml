@@ -3,12 +3,12 @@
   tasks:
   - name: instala wget y certificados
     become: true
-    update-cache: yes
     apt:
-    pkg:
-    - wget
-    - ca-certificates
-    state: present
+     update-cache: yes
+     pkg:
+     - wget
+     - ca-certificates
+     state: present
   - name: agrega llave para repositorio postgress
     shell: wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
   - name: agrega repositorio a las llaves
@@ -16,10 +16,10 @@
   - name: instala postgresql
     become: true
     apt:
-    update-cache: yes
-    pkg:
-    - postgresql
-    - postgresql-contrib
+     update-cache: yes
+     pkg:
+     - postgresql
+     - postgresql-contrib
   - name: descarga comandos para bd
     shell: wget https://raw.githubusercontent.com/tuto/tenpo-test/master/scripts/bd/commands.sql
   - name: crea base de datos

@@ -15,6 +15,18 @@
 
     4.**terraform**: Scripts en terraform necesarios para que se cree la infraestructura y la app se despliegue. 
 
+## Supuestos
+    
+    1. Para que todo funcione se requiere contar con una cuenta en azure
+    2. Se debe crear una subscripción para terraform y obtener:
+        1. client_id
+        2. tenant_id
+        3. client_secret
+        4. subscription_id
+    3. Dentro de la carpeta scripts/terraform/ se debe crear un archivo llamado **terraform.tfvars**. En el cuál se deben agregar las siguientes variables 
+    
+
+
 
 ## Requerimientos:
 ### Se require Terraform v0.12.25 instalado
