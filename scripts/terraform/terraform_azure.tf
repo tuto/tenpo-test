@@ -208,7 +208,7 @@ resource "azurerm_linux_virtual_machine" "myterraforVmApp" {
             "echo 'export JWTPASSWORD=${var.api_jwtpassword}' >> ~/.bashrc ",
             "echo 'export DB_USER=${var.api_db_user}' >> ~/.bashrc ",
             "echo 'export DB_PASSWORD=${var.api_db_password}' >> ~/.bashrc ",
-            "echo 'export DB_PASSWORD=${var.api_db_password}' >> ~/.bashrc ",
+            "echo 'export DB_HOST=${var.api_db_host}' >> ~/.bashrc ",
             "echo 'export DB_DATABASE=${var.api_db_database}' >> ~/.bashrc ",
             "echo 'export DB_PORT=${var.api_db_port}' >> ~/.bashrc ",
             "source ~/.bashrc",
