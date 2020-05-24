@@ -3,16 +3,18 @@ FROM node:12.16.3
 # Create app directory
 RUN npm install nodemon -g
 
-WORKDIR /usr/src/api
+RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
+
+WORKDIR /home/node/app
 
 COPY package*.json ./
 
-RUN npm install
-# If you are building your code for production
-# RUN npm ci --only=production
+USER node
 
-# Bundle app source
-COPY . .
+RUN npm install
+
+COPY --chown=node:node . .
 
 EXPOSE 3000
-CMD nodemon server.js
+
+CMD [ "nodemon", "server.js" ]
