@@ -1,7 +1,12 @@
 provider "azurerm" {
   version = "=2.2"
   features {}
+  client_id       = var.azure_client_id
+  client_secret   = var.azure_client_secret
+  subscription_id = var.azure_subscription_id
+  tenant_id       = var.azure_tenant_id
 }
+
 resource "azurerm_resource_group" "myterraformgroup" {
     name     = "tenpoTestGroup"
     location = "eastus"
@@ -202,7 +207,13 @@ resource "azurerm_linux_virtual_machine" "myterraforVmApp" {
         inline = [
             "wget https://raw.githubusercontent.com/tuto/tenpo-test/master/scripts/bash/cookbookApp.sh",
             "chmod +x cookbookApp.sh",
-            "./cookbookApp.sh"
+            "./cookbookApp.sh",
+            "export JWTPASSWORD=${var.api_jwtpassword}",
+            "export DB_USER=${var.api_db_user}",
+            "export DB_PASSWORD=${var.api_db_password}",
+            "export DB_HOST=${var.api_db_host}",
+            "export DB_DATABASE=${var.api_db_database}",
+            "export DB_PORT=${var.api_db_port}"
         ]
     }
 
