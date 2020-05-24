@@ -70,6 +70,18 @@ resource "azurerm_network_security_group" "myterraformnsg" {
         destination_address_prefix = "*"
     }
 
+    security_rule {
+        name                       = "POSTGRESS"
+        priority                   = 1021
+        direction                  = "Inbound"
+        access                     = "Allow"
+        protocol                   = "Tcp"
+        source_port_range          = "*"
+        destination_port_range     = 5432
+        source_address_prefix      = "*"
+        destination_address_prefix = "*"
+    }
+
     tags = {
         environment = "Terraform Demo"
     }
@@ -176,7 +188,7 @@ resource "azurerm_linux_virtual_machine" "myterraforVmApp" {
     }
 
     tags = {
-        environment = "Terraform Demo"
+        environment = "Tenpo Test Environment"
     }
 
     provisioner "remote-exec" {
@@ -230,7 +242,7 @@ resource "azurerm_linux_virtual_machine" "myterraforVmDB" {
     }
 
     tags = {
-        environment = "Terraform Demo"
+        environment = "Tenpo Test Environment"
     }
 
     provisioner "remote-exec" {
