@@ -1,0 +1,28 @@
+---
+- hosts: localhost
+  tasks:
+  - name: instala wget y certificados
+    become: true
+    update-cache: yes
+    apt:
+    pkg:
+    - wget
+    - ca-certificates
+    state: present
+  - name: agrega llave para repositorio postgress
+    shell: wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+  - name: agrega repositorio a las llaves
+    shell: sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" >> /etc/apt/sources.list.d/pgdg.list'
+  - name: instala postgresql
+    become: true
+    apt:
+    update-cache: yes
+    pkg:
+    - postgresql
+    - postgresql-contrib
+  - name: descarga comandos para bd
+    shell: wget https://raw.githubusercontent.com/tuto/tenpo-test/master/scripts/bd/commands.sql
+  - name: crea base de datos
+    shell: sudo -u postgres createdb tenpo-api
+  - name: provisiona base de datos
+    shell: sudo -u postgres psql -d tenpo-api -a -f commands.sql
