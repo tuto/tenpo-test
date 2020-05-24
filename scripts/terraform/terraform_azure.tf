@@ -34,7 +34,8 @@ resource "azurerm_public_ip" "myterraformpublicipapp" {
     location                     = "eastus"
     resource_group_name          = azurerm_resource_group.myterraformgroup.name
     allocation_method            = "Dynamic"
-
+    domain_name_label            = "myterraformpublicipapptenpoapi"
+    
     tags = {
         environment = "Terraform Demo"
     }
@@ -45,6 +46,7 @@ resource "azurerm_public_ip" "myterraformpublicipdb" {
     location                     = "eastus"
     resource_group_name          = azurerm_resource_group.myterraformgroup.name
     allocation_method            = "Dynamic"
+    domain_name_label            = "myterraformpublicipdbtenpoapi"
 
     tags = {
         environment = "Terraform Demo"
@@ -177,35 +179,6 @@ resource "azurerm_linux_virtual_machine" "myterraforVmApp" {
         environment = "Terraform Demo"
     }
 
-    provisioner "remote-exec" {
-    inline = [
-      "sudo apt-get update"
-       "sudo apt-get install \
-        apt-transport-https \
-        ca-certificates \
-        curl \
-        gnupg-agent \
-        software-properties-common ",
-        "curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add - ",
-        "sudo apt-key fingerprint 0EBFCD88 ",
-        "sudo add-apt-repository \
-            \"deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-            $(lsb_release -cs) \
-            stable\" ",
-        "sudo apt-get update ",
-        "sudo apt-get install docker-ce docker-ce-cli containerd.io --assume-yes ",
-        "sudo curl -L 'https://github.com/docker/compose/releases/download/1.25.5/docker-compose-$(uname -s)-$(uname -m)' -o /usr/local/bin/docker-compose ",
-       "sudo chmod +x /usr/local/bin/docker-compose ",
-        "sudo apt-get install git --assume-yes ",
-        "git clone https://github.com/tuto/tenpo-test.git ",
-        "cd tenpo-test/api ",
-        "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash ",
-        "source ~/.bashrc ",
-        "nvm install 12.16.3 ",
-        "npm install ", 
-        "node server.js"
-    ]
-  }
 }
 
 resource "azurerm_linux_virtual_machine" "myterraforVmDB" {
