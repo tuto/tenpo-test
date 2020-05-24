@@ -205,15 +205,16 @@ resource "azurerm_linux_virtual_machine" "myterraforVmApp" {
         }
 
         inline = [
+            "echo 'export JWTPASSWORD=${var.api_jwtpassword}' >> ~/.bashrc ",
+            "echo 'export DB_USER=${var.api_db_user}' >> ~/.bashrc ",
+            "echo 'export DB_PASSWORD=${var.api_db_password}' >> ~/.bashrc ",
+            "echo 'export DB_PASSWORD=${var.api_db_password}' >> ~/.bashrc ",
+            "echo 'export DB_DATABASE=${var.api_db_database}' >> ~/.bashrc ",
+            "echo 'export DB_PORT=${var.api_db_port}' >> ~/.bashrc ",
+            "source ~/.bashrc",
             "wget https://raw.githubusercontent.com/tuto/tenpo-test/master/scripts/bash/cookbookApp.sh",
             "chmod +x cookbookApp.sh",
-            "./cookbookApp.sh",
-            "export JWTPASSWORD=${var.api_jwtpassword}",
-            "export DB_USER=${var.api_db_user}",
-            "export DB_PASSWORD=${var.api_db_password}",
-            "export DB_HOST=${var.api_db_host}",
-            "export DB_DATABASE=${var.api_db_database}",
-            "export DB_PORT=${var.api_db_port}"
+            "./cookbookApp.sh"
         ]
     }
 
