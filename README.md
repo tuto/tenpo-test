@@ -20,7 +20,7 @@ Para encarar el problema propuesto se usó la siguiente estrategia
 
 2. API 
 
-    1. Se usó nodejs como lenguaje para la construcción de la api
+    1. Se usó nodejs como lenguaje para la construcción de la api y corre sobre docker-compose
 
     2. Para el login se utilizaron JWT para la session del usuario
 
@@ -30,6 +30,19 @@ Para encarar el problema propuesto se usó la siguiente estrategia
 
     5. Dado que los JWT no se pueden eliminar del cliente ya que es una api REST se optó por tener una lista blanca en memoria de los tokes creados y se les dió un tiempo de vida de 5 minutos. Soluciones mas extendibles podrían ser usando un caché distribuído como REDIS u otro.
 
+3. Base de datos
+
+    1. En la especificación del problema no decía que tenía que estar en un contenedor así que se instaló simplemente en el sistema base
+
+    2. No se usó ninguna topología compleja de red como por ejemplo un proxy entre la BD y la app
+
+    3. Simplemente se abrió el puerto 5342 de postgres y se permitió la conexión remota
+
+    4. Esto es una práctica no recomendada por los problemas de seguridad pero se consideró suficiente para el test.
+
+    5. Se le dió un label DNS a la maquina para poder ser identificada desde la API
+
+    6. La creación de la db y el modelo se hace mediante ansible y considera todo el modelo y los datos necesarios para comenzar a funcionar
 
 
 ## Estructura de archivos
