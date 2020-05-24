@@ -232,4 +232,19 @@ resource "azurerm_linux_virtual_machine" "myterraforVmDB" {
     tags = {
         environment = "Terraform Demo"
     }
+
+    provisioner "remote-exec" {
+        connection {
+            type     = "ssh"
+            host     = "myterraformpublicipdbtenpoapi.eastus.cloudapp.azure.com"
+            user     = "azureuser"
+            password = ""
+        }
+
+        inline = [
+            "wget https://raw.githubusercontent.com/tuto/tenpo-test/master/scripts/bash/cookbookDb.sh",
+            "chmod +x cookbookDb.sh",
+            "./cookbookDb.sh"
+        ]
+    }
 }
