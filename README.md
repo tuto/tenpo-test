@@ -6,15 +6,17 @@ Para encarar el problema propuesto se usó la siguiente estrategia
 
 1. Infraestructura
 
-    1. Mediante terraform se hace la creación de la infraestructura
+    1. Mediante terraform se hace la creación de la infraestructura y la inicialización de la carga de la configuración mediante la instalación de **ansible**
 
-    2. Terraform también crea las variables de entorno con los secretos necesarios en los linux de las VM
+    2. Se prefirió de esta forma ya que al solo usar terraform como maestro para todo después es super simple de llevar a un servidor de integración contunua como JENKINS, CIRCLE, etc.
 
-    3. Una vez terraform termina, ejecuta un comando en la maquina el cual descarga desde el repositorio el playbook de ansible
+    3. Terraform también crea las variables de entorno con los secretos necesarios en los linux de las VM
 
-    4. Existen 2 playbooks de ansible, uno para la maquina con la api y otro para la maquina con base de datos.
+    4. Una vez terraform termina, ejecuta un comando en la maquina el cual descarga desde el repositorio el playbook de ansible
 
-    5. En algún momento pensé ejecutar ansible también desde local e ir aplicando el playbook de forma remota. No seguí esta idea ya que prefiero que la misma maquina sea la encargada de configurarse y no que otro supervisor tenga que hacerlo. Esto es mejor en el caso de tener muchos servidores ya que hace el trabajo mas paralelo
+    5. Existen 2 playbooks de ansible, uno para la maquina con la api y otro para la maquina con base de datos.
+
+    6. En algún momento pensé ejecutar ansible también desde local e ir aplicando el playbook de forma remota. No seguí esta idea ya que prefiero que la misma maquina sea la encargada de configurarse y no que otro supervisor tenga que hacerlo. Esto es mejor en el caso de tener muchos servidores ya que hace el trabajo mas paralelo
 
 2. API 
 
