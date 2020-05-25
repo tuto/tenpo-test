@@ -31,7 +31,7 @@
     lineinfile:
      path:  commands.sql
      insertbefore: BOF
-     line: "ALTER USER postgres PASSWORD '{{ db_pass_env }}'';"
+     line: "ALTER USER postgres PASSWORD '{{ db_pass_env }}';"
   - name: provisiona base de datos
     shell: sudo -u postgres psql -d tenpo-api -a -f commands.sql
   - name: habilitar conecciones remotas en postgres
