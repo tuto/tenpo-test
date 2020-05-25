@@ -140,9 +140,32 @@ Para sumar es necesario estar logueado y enviar el token. Mas los números que s
 
 ```
 
-curl -d '{"n1":2, "n2":3, "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpsdWVpemFAZ21haWwuY29tIiwibmFtZSI6Im5vbWJyZSIsImxhc3RfbmFtZSI6ImFwZWxsaWRvIiwiaWF0IjoxNTkwMjA5MzQ3LCJleHAiOjE1OTAyMDk2NDd9.3DF5frAHYhYrnEKu0tKXlx1nqch6GN7oeTZ1VbJcyYQ"}' -H "Content-Type: application/json" -X POST http://localhost:8080/suma --verbose
+curl -d '{"n1":2, "n2":3, "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpsdWVpemFAZ21haWwuY29tIiwibmFtZSI6Im5vbWJyZSIsImxhc3RfbmFtZSI6ImFwZWxsaWRvIiwiaWF0IjoxNTkwMjA5MzQ3LCJleHAiOjE1OTAyMDk2NDd9.3DF5frAHYhYrnEKu0tKXlx1nqch6GN7oeTZ1VbJcyYQ"}' -H "Content-Type: application/json" -X POST http://localhost:3000/suma --verbose
 
 ```
 
+Esto nos debería dar un código http 200 y el resultado de la suma
+
+#### Logout
+
+Esto lo que hace es expirar el token y ya no dejar ejecutar mas consultas logueado
+
+```
+
+curl -d '{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpsdWVpemFAZ21haWwuY29tIiwibmFtZSI6Im5vbWJyZSIsImxhc3RfbmFtZSI6ImFwZWxsaWRvIiwiaWF0IjoxNTkwMjA5MzQ3LCJleHAiOjE1OTAyMDk2NDd9.3DF5frAHYhYrnEKu0tKXlx1nqch6GN7oeTZ1VbJcyYQ"}' -H "Content-Type: application/json" -X POST http://localhost:3000/logout --verbose
+
+```
+
+
+#### Historial
+
+En el enunciado no decia nada de que el historial era logueado así que se asumió que no. 
+
+```
+
+curl http://localhost:3000/history?email=mail@mail.com --verbose
+
+```
+Esto nos debería dar todas las cosas que el usuario hizo
 
 
