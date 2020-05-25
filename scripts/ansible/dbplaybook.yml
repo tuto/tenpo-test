@@ -27,8 +27,8 @@
   - name: provisiona base de datos
     shell: sudo -u postgres psql -d tenpo-api -a -f commands.sql
   - name: habilitar conecciones remotas en postgres
-    shell: archivo=$(sudo  find -O2 / -name "postgresql.conf" | head -n 1) && sudo sed -i "s/\#listen_addresses/listen_addresses = \'*\' #/g" $archivo
+    shell: archivo=$(sudo  find -O2 / -name "postgresql.conf" | head -n 1) && sudo sed -i "s/\#listen_addresses/listen_addresses = \'*\' \\#/g" $archivo
   - name:  habilitar en configuracion de postgress
-    shell: archivo=$(sudo  find -O2 / -name "pg_hba.conf" | head -n 1) && echo 'host    all             all              all              md6' | sudo tee -a $archivo
+    shell: archivo=$(sudo  find -O2 / -name "pg_hba.conf" | head -n 1) && echo 'host    all             all              all              md5' | sudo tee -a $archivo
   - name:  restart postgress
     shell: sudo /etc/init.d/postgresql restart
