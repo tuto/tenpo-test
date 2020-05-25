@@ -1,4 +1,3 @@
-console.log("TUTO", process.env)
 module.exports = {
     JWT_PASSWORD: process.env.JWTPASSWORD,
     DB_USER: process.env.DB_USER,

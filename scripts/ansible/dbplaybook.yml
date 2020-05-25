@@ -26,7 +26,6 @@
     shell: wget https://raw.githubusercontent.com/tuto/tenpo-test/master/scripts/bd/commands.sql
   - name: crea base de datos
     shell: sudo -u postgres createdb tenpo-api
-  - debug: msg="the value of DB_PASSWORD is {{ db_pass_env }}"
   - name: asigna password al usuario
     lineinfile:
      path:  commands.sql

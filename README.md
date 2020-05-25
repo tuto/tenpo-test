@@ -111,12 +111,17 @@ $ terraform apply
 
 ### API
 
+Esta infraestructura ya está deployada en azure así que los curl que están de ejemplo deberían funcionar. *Tal vez cambiar el email*
+
+Si la desea deployar en su espacio en azure no debería tener problemas y solo debería cambiar el host de los curl
+
+
 #### Register
 
 Para registrarse como usuario se puede hacer mediante curl:
 
 ```
-curl -d '{"email":"mail@gmail.com", "password":"value2", "name":"nombre", "last_name":"apellido"}' -H "Content-Type: application/json" -X POST http://myterraformpublicipdbtenpoapi.eastus.cloudapp.azure.com:3000/register --verbose
+curl -d '{"email":"mail@gmail.com", "password":"value2", "name":"nombre", "last_name":"apellido"}' -H "Content-Type: application/json" -X POST http://myterraformpublicipapptenpoapi.eastus.cloudapp.azure.com:3000/register
 
 ```
 
@@ -128,7 +133,7 @@ Para loguearse es necesario haberse registrado primero, si lo hicimos el comando
 
 ```
 
-curl -d '{"email":"jlueiza@gmail.com", "password":"value2"}' -H "Content-Type: application/json" -X POST http://myterraformpublicipdbtenpoapi:3000/login --verbose
+curl -d '{"email":"jlueiza@gmail.com", "password":"value2"}' -H "Content-Type: application/json" -X POST http://myterraformpublicipapptenpoapi.eastus.cloudapp.azure.com:3000/login --verbose
 
 ```
 
@@ -140,7 +145,7 @@ Para sumar es necesario estar logueado y enviar el token. Mas los números que s
 
 ```
 
-curl -d '{"n1":2, "n2":3, "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpsdWVpemFAZ21haWwuY29tIiwibmFtZSI6Im5vbWJyZSIsImxhc3RfbmFtZSI6ImFwZWxsaWRvIiwiaWF0IjoxNTkwMjA5MzQ3LCJleHAiOjE1OTAyMDk2NDd9.3DF5frAHYhYrnEKu0tKXlx1nqch6GN7oeTZ1VbJcyYQ"}' -H "Content-Type: application/json" -X POST http://localhost:3000/suma --verbose
+curl -d '{"n1":2, "n2":3, "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpsdWVpemFAZ21haWwuY29tIiwibmFtZSI6Im5vbWJyZSIsImxhc3RfbmFtZSI6ImFwZWxsaWRvIiwiaWF0IjoxNTkwMjA5MzQ3LCJleHAiOjE1OTAyMDk2NDd9.3DF5frAHYhYrnEKu0tKXlx1nqch6GN7oeTZ1VbJcyYQ"}' -H "Content-Type: application/json" -X POST http://myterraformpublicipapptenpoapi.eastus.cloudapp.azure.com:3000/suma --verbose
 
 ```
 
@@ -152,7 +157,7 @@ Esto lo que hace es expirar el token y ya no dejar ejecutar mas consultas loguea
 
 ```
 
-curl -d '{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpsdWVpemFAZ21haWwuY29tIiwibmFtZSI6Im5vbWJyZSIsImxhc3RfbmFtZSI6ImFwZWxsaWRvIiwiaWF0IjoxNTkwMjA5MzQ3LCJleHAiOjE1OTAyMDk2NDd9.3DF5frAHYhYrnEKu0tKXlx1nqch6GN7oeTZ1VbJcyYQ"}' -H "Content-Type: application/json" -X POST http://localhost:3000/logout --verbose
+curl -d '{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpsdWVpemFAZ21haWwuY29tIiwibmFtZSI6Im5vbWJyZSIsImxhc3RfbmFtZSI6ImFwZWxsaWRvIiwiaWF0IjoxNTkwMjA5MzQ3LCJleHAiOjE1OTAyMDk2NDd9.3DF5frAHYhYrnEKu0tKXlx1nqch6GN7oeTZ1VbJcyYQ"}' -H "Content-Type: application/json" -X POST http://myterraformpublicipapptenpoapi.eastus.cloudapp.azure.com:3000/logout --verbose
 
 ```
 
@@ -163,9 +168,9 @@ En el enunciado no decia nada de que el historial era logueado así que se asumi
 
 ```
 
-curl http://localhost:3000/history?email=mail@mail.com --verbose
+curl http://myterraformpublicipapptenpoapi.eastus.cloudapp.azure.com:3000/history?email=mail@mail.com --verbose
 
 ```
-Esto nos debería dar todas las cosas que el usuario hizo
+Esto nos debería dar la lista de todas las acciones que el usuario hizo
 
 
