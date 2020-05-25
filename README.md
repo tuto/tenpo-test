@@ -28,8 +28,28 @@ Para encarar el problema propuesto se usó la siguiente estrategia
 
     4. No se usó federación de tokens ni definición de roles ya que era simplemente una api sencilla y ya requería de mas tiempo en la implementación
 
-    5. Dado que los JWT no se pueden eliminar del cliente ya que es una api REST se optó por tener una lista blanca en memoria de los tokes creados y se les dió un tiempo de vida de 5 minutos. Soluciones mas extendibles podrían ser usando un caché distribuído como REDIS u otro.
+    5. Dado que los JWT no se pueden eliminar del cliente ya que es una api REST se optó por tener una lista blanca en memoria de los tokens creados y se les dió un tiempo de vida de 5 minutos. Soluciones mas extendibles podrían ser usando un caché distribuído como REDIS u otro.
 
+    6. Se usó TDD como metodología de desarrollo y se logró una covertura de pruebas como se indica abajo
+    ```
+    -----------------|---------|----------|---------|---------|-------------------
+    File             | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+    -----------------|---------|----------|---------|---------|-------------------
+    All files        |   98.44 |     88.1 |   95.83 |   98.43 |                   
+    api              |      85 |        0 |       0 |      85 |                   
+    server.js        |      85 |        0 |       0 |      85 | 17-22             
+    api/clients      |     100 |     87.5 |     100 |     100 |                   
+    db.js            |     100 |     87.5 |     100 |     100 | 76                
+    pool.js          |     100 |      100 |     100 |     100 |                   
+    api/controllers  |     100 |      100 |     100 |     100 |                   
+    users.js         |     100 |      100 |     100 |     100 |                   
+    api/utils        |     100 |      100 |     100 |     100 |                   
+    config.js        |     100 |      100 |     100 |     100 |                   
+    crypter.js       |     100 |      100 |     100 |     100 |                   
+    validates.js     |     100 |      100 |     100 |     100 |                   
+    -----------------|---------|----------|---------|---------|------------------- 
+    ```
+    
 3. Base de datos
 
     1. En la especificación del problema no decía que tenía que estar en un contenedor así que se instaló simplemente en el sistema base
