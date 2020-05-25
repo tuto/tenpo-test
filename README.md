@@ -110,3 +110,39 @@ $ terraform apply
 ```
 
 ### API
+
+#### Register
+
+Para registrarse como usuario se puede hacer mediante curl:
+
+```
+curl -d '{"email":"mail@gmail.com", "password":"value2", "name":"nombre", "last_name":"apellido"}' -H "Content-Type: application/json" -X POST http://myterraformpublicipdbtenpoapi.eastus.cloudapp.azure.com:3000/register --verbose
+
+```
+
+Si todo sale bien debemos recibir un código http 201
+
+#### Login
+
+Para loguearse es necesario haberse registrado primero, si lo hicimos el comando sería nuevamente usando curl 
+
+```
+
+curl -d '{"email":"jlueiza@gmail.com", "password":"value2"}' -H "Content-Type: application/json" -X POST http://myterraformpublicipdbtenpoapi:3000/login --verbose
+
+```
+
+Si todo sale bien recibiremos un token de respuesta. Este token es necesario para los servicios que son logueados(suma)
+
+#### Suma
+
+Para sumar es necesario estar logueado y enviar el token. Mas los números que se quieren sumar.
+
+```
+
+curl -d '{"n1":2, "n2":3, "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpsdWVpemFAZ21haWwuY29tIiwibmFtZSI6Im5vbWJyZSIsImxhc3RfbmFtZSI6ImFwZWxsaWRvIiwiaWF0IjoxNTkwMjA5MzQ3LCJleHAiOjE1OTAyMDk2NDd9.3DF5frAHYhYrnEKu0tKXlx1nqch6GN7oeTZ1VbJcyYQ"}' -H "Content-Type: application/json" -X POST http://localhost:8080/suma --verbose
+
+```
+
+
+

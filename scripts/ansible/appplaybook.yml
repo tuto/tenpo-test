@@ -41,6 +41,6 @@
      clone: yes
      dest: tenpo-test
   - name: crear el archivo .env
-    shell: cd tenpo-test/api && sudo rm -f .env && echo "JWTPASSWORD=$JWTPASSWORD" >> .env && echo "DB_USER=$DB_USER" >> .env && echo "DB_PASSWORD=$DB_PASSWORD" >> .env && echo "DB_HOST=$DB_HOST" >> .env && echo "DB_DATABASE=$DB_DATABASE" >> .env && echo "DB_PORT=$DB_PORT" >> .env
+    shell: cd tenpo-test/api && sudo rm -f .env && echo "JWTPASSWORD={{ lookup('env','JWTPASSWORD') }}" >> .env && echo "DB_USER={{ lookup('env','DB_USER') }}" >> .env && echo "DB_PASSWORD={{ lookup('env','DB_PASSWORD') }}" >> .env && echo "DB_HOST={{ lookup('env','DB_HOST') }}" >> .env && echo "DB_DATABASE={{ lookup('env','DB_DATABASE') }}" >> .env && echo "DB_PORT={{ lookup('env','DB_PORT') }}" >> .env
   - name: Entrar a la carpeta, construir y levantar el docker
     shell: cd tenpo-test/api && sudo docker-compose build && sudo docker-compose up -d 

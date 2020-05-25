@@ -25,7 +25,7 @@
   - name: crea base de datos
     shell: sudo -u postgres createdb tenpo-api
   - name: asigna password al usuario
-    shell: sed -i "1 i\ALTER USER postgres PASSWORD $DB_PASSWORD;" commands.sql
+    shell: sed -i "1 i\ALTER USER postgres PASSWORD {{ lookup('env','DB_PASSWORD') }};" commands.sql
   - name: provisiona base de datos
     shell: sudo -u postgres psql -d tenpo-api -a -f commands.sql
   - name: habilitar conecciones remotas en postgres
