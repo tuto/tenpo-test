@@ -1,7 +1,7 @@
 ---
 - hosts: localhost
   vars:
-   db_pass_env: "{{ lookup('env','NVM_DIR') }}"
+   db_pass_env: "{{ lookup('env','DB_PASSWORD') }}"
    db_pass_env_file: "{{ lookup('file','.env') }}"
   tasks:
   - name: instala wget y certificados
