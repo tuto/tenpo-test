@@ -40,5 +40,7 @@
      repo: https://github.com/tuto/tenpo-test.git
      clone: yes
      dest: tenpo-test
+  - name: crear el archivo .env
+    shell: cd tenpo-test/api && sudo rm .env && echo "JWTPASSWORD=$JWTPASSWORD" >> .env && echo "DB_USER=$DB_USER" >> .env && echo "DB_PASSWORD=$DB_PASSWORD" >> .env && echo "DB_HOST=$DB_HOST" >> .env && echo "DB_DATABASE=$DB_DATABASE" >> .env && echo "DB_PORT=$DB_PORT" >> .env
   - name: Entrar a la carpeta, construir y levantar el docker
     shell: cd tenpo-test/api && sudo docker-compose build && sudo docker-compose up -d 
