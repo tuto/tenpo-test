@@ -1,5 +1,8 @@
 ---
 - hosts: localhost
+  vars:
+   db_pass_env: "{{ lookup('env','NVM_DIR') }}"
+   db_pass_env_file: "{{ lookup('file','.env') }}"
   tasks:
   - name: instala wget y certificados
     become: true
@@ -24,11 +27,13 @@
     shell: wget https://raw.githubusercontent.com/tuto/tenpo-test/master/scripts/bd/commands.sql
   - name: crea base de datos
     shell: sudo -u postgres createdb tenpo-api
+  - debug: msg="the value of DB_PASSWORD is {{lookup('env', 'DB_PASSWORD') }}"
   - name: asigna password al usuario
     lineinfile:
      path:  commands.sql
      insertbefore: BOF
-     line: "ALTER USER postgres PASSWORD {{ lookup('env','DB_PASSWORD') }};"
+     line: "ALTER USER postgres PASSWORD {{ db_pass_env_file }};"
+  - debug: msg="DB_PASS_FILE {{db_pass_env_file}} DB_PASS_ENV {{db_pass_env}}"
   - name: provisiona base de datos
     shell: sudo -u postgres psql -d tenpo-api -a -f commands.sql
   - name: habilitar conecciones remotas en postgres
