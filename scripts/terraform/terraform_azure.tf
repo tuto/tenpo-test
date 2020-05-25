@@ -266,6 +266,9 @@ resource "azurerm_linux_virtual_machine" "myterraforVmDB" {
         }
 
         inline = [
+            "echo 'export DB_USER=${var.api_db_user}' >> ~/.bashrc ",
+            "echo 'export DB_PASSWORD=${var.api_db_password}' >> ~/.bashrc ",
+            "source ~/.bashrc",
             "wget https://raw.githubusercontent.com/tuto/tenpo-test/master/scripts/bash/cookbookDb.sh",
             "chmod +x cookbookDb.sh",
             "./cookbookDb.sh"
